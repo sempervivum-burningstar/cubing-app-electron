@@ -1,0 +1,19 @@
+{
+  "name": "cubing-app",
+  "version": "1.0.0",
+  "description": "Cube collection, lube collection and speedcubing timer",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "sql.js": "^1.13.0"
+  },
+  "devDependencies": {
+    "electron": "^38.2.0"
+  },
+  "allowScripts": {
+    "electron@38.8.6": true
+  }
+}

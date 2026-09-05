@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'">
+<title>Cube Collection Manager</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-mode="light">
+
+<nav id="tabbar">
+  <button class="tab active" data-tab="cubes">Cubes</button>
+  <button class="tab" data-tab="lubes">Lubes</button>
+  <button class="tab" data-tab="timer">Timer</button>
+  <button class="tab" data-tab="settings">Settings</button>
+</nav>
+
+<main id="pages">
+
+<section class="page active" id="page-cubes">
+  <div class="toolbar">
+    <fieldset class="group">
+      <legend>Actions</legend>
+      <div class="btn-grid">
+        <button id="cube-add">Add Cube</button>
+        <button id="cube-edit">Edit Cube</button>
+        <button id="cube-delete">Delete Cube</button>
+        <button id="cube-refresh">Refresh</button>
+        <button id="cube-export" class="span2">Export to CSV</button>
+      </div>
+    </fieldset>
+    <fieldset class="group grow">
+      <legend>Search</legend>
+      <label for="cube-search">Search cubes:</label>
+      <input type="search" id="cube-search" autocomplete="off">
+    </fieldset>
+  </div>
+  <fieldset class="group grow-v">
+    <legend>All Cubes</legend>
+    <div class="table-wrap">
+      <table id="cube-table">
+        <thead>
+          <tr>
+            <th data-col="name">Name</th>
+            <th data-col="brand">Brand</th>
+            <th data-col="size">Size</th>
+            <th data-col="adjustments">Adjustments and Features</th>
+            <th data-col="kind">Kind</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </fieldset>
+</section>
+
+<section class="page" id="page-lubes">
+  <div class="toolbar">
+    <fieldset class="group">
+      <legend>Actions</legend>
+      <div class="btn-grid">
+        <button id="lube-add">Add Lube</button>
+        <button id="lube-edit">Edit Lube</button>
+        <button id="lube-delete">Delete Lube</button>
+        <button id="lube-refresh">Refresh</button>
+        <button id="lube-export" class="span2">Export to CSV</button>
+      </div>
+    </fieldset>
+    <fieldset class="group grow">
+      <legend>Search</legend>
+      <label for="lube-search">Search lubes:</label>
+      <input type="search" id="lube-search" autocomplete="off">
+    </fieldset>
+  </div>
+  <fieldset class="group grow-v">
+    <legend>All Lubes</legend>
+    <div class="table-wrap">
+      <table id="lube-table">
+        <thead>
+          <tr>
+            <th data-col="name">Name</th>
+            <th data-col="hand_feeling">Hand Feeling</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </fieldset>
+</section>
+
+<section class="page" id="page-timer">
+  <div class="toolbar">
+    <fieldset class="group grow">
+      <legend>Session</legend>
+      <label for="session-select">Session:</label>
+      <select id="session-select"></select>
+      <button id="session-add">Add Session</button>
+      <button id="session-delete">Delete Session</button>
+    </fieldset>
+    <fieldset class="group">
+      <legend>&nbsp;</legend>
+      <button id="scramble-new">New Scramble</button>
+      <button id="scramble-image-btn">Show Scramble Image</button>
+      <button id="timer-refresh">Refresh</button>
+      <button id="inspect-btn">Inspect</button>
+    </fieldset>
+  </div>
+
+  <fieldset class="group">
+    <legend>Scramble</legend>
+    <div id="scramble-text"></div>
+  </fieldset>
+
+  <div id="timer-stage">
+    <div id="time-label">0.000</div>
+    <input id="typed-input" class="hidden" autocomplete="off" spellcheck="false"
+           placeholder="12.34 or 1:05.23" aria-label="Type your time">
+    <img id="scramble-image" class="hidden" alt="Scramble">
+  </div>
+  <div id="hint-label">Hold spacebar (or click) to arm, release to start, press again to stop.
+Inspect: 15s WCA-style inspection (Go!! at 12s, +2 at 15s, DNF at 17s).</div>
+  <div id="stats-line"></div>
+
+  <fieldset class="group grow-v">
+    <legend>Times</legend>
+    <ul id="solves-list" tabindex="0"></ul>
+  </fieldset>
+
+  <div class="toolbar bottom-actions">
+    <button id="solve-plus2">+2</button>
+    <button id="solve-dnf">DNF</button>
+    <button id="solve-delete">Delete Selected</button>
+    <button id="solve-scramble">Show Scramble</button>
+  </div>
+</section>
+
+<section class="page" id="page-settings">
+  <h1 class="settings-title">Settings</h1>
+
+  <fieldset class="group">
+    <legend>Appearance</legend>
+    <div class="setting-row">
+      <label>Color mode:</label>
+      <label class="inline"><input type="radio" name="mode" id="mode-light" value="light"> Light</label>
+      <label class="inline"><input type="radio" name="mode" id="mode-dark" value="dark"> Dark</label>
+    </div>
+    <div class="setting-row">
+      <label for="accent-select">Accent color:</label>
+      <select id="accent-select"></select>
+      <input type="text" id="accent-hex" size="9" spellcheck="false" aria-label="Accent hex color">
+      <span id="accent-swatch" title="Click to customize"></span>
+    </div>
+    <div class="tip">Tip: the accent blends into the theme using the opacity you pick in Customize.</div>
+  </fieldset>
+
+  <fieldset class="group">
+    <legend>Timer</legend>
+    <div class="setting-row">
+      <label>Timer mode:</label>
+      <label class="inline"><input type="radio" name="inputmode" id="inputmode-timer" value="timer"> Regular timer</label>
+      <label class="inline"><input type="radio" name="inputmode" id="inputmode-type" value="type"> Type times</label>
+    </div>
+    <div class="setting-row">
+      <label>Time precision:</label>
+      <label class="inline"><input type="radio" name="precision" id="precision-milli" value="milli"> Milliseconds (0.123)</label>
+      <label class="inline"><input type="radio" name="precision" id="precision-centi" value="centi"> Centiseconds (0.12)</label>
+    </div>
+    <div class="setting-row">
+      <label>Inspection display:</label>
+      <label class="inline"><input type="radio" name="inspectdisplay" id="inspect-decisec" value="decisec"> Deciseconds (1.2)</label>
+      <label class="inline"><input type="radio" name="inspectdisplay" id="inspect-sec" value="sec"> Seconds (1)</label>
+    </div>
+    <div class="setting-row">
+      <label class="inline"><input type="checkbox" id="voice-alert"> Voice alert during inspection</label>
+      <button id="voice-preview">Preview</button>
+      <label for="voice-select">Voice:</label>
+      <select id="voice-select"></select>
+      <span id="no-voices" class="tip hidden">(no speech voices detected)</span>
+    </div>
+  </fieldset>
+
+  <fieldset class="group">
+    <legend>Statistics</legend>
+    <div class="stats-layout">
+      <div>
+        <div class="tip">Shown in timer:</div>
+        <select id="stats-shown" multiple size="7"></select>
+      </div>
+      <div class="stats-buttons">
+        <button id="stats-show">Show</button>
+        <button id="stats-hide">Hide</button>
+        <button id="stats-up">Move Up</button>
+        <button id="stats-down">Move Down</button>
+      </div>
+      <div>
+        <div class="tip">Hidden:</div>
+        <select id="stats-hidden" multiple size="7"></select>
+      </div>
+    </div>
+  </fieldset>
+
+  <button id="settings-reset">Reset to defaults</button>
+</section>
+
+</main>
+
+<footer id="statusbar">Ready</footer>
+
+<div id="modal-root" class="hidden"></div>
+<div id="ctx-menu" class="hidden"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
